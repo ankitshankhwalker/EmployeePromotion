@@ -7,17 +7,28 @@ data preparation and exploratory data analysis
 
 """
 
+
 import pandas as pd
+from fancyimpute import KNN
 
-Train_data=pd.read_csv("TrainData.csv")
+Traindata = pd.read_csv('TrainData.csv')
 
-#check the summary of data
-summary_stats=Train_data.describe()
-#--number of trainings not having much variations--#
+#Missing data
+Total = Traindata.isnull().sum().sort_values(ascending=False)
+Percent = (Traindata.isnull().sum().sort_values(ascending=False)/Traindata.isnull().count().sort_values(ascending=False))*100
+missing_data = pd.concat([Total,Percent],axis=1,keys=['Total','Percent'])
+missing_data = missing_data[missing_data['Total']>0]
 
-#checking missing values in data#
-#finding the missing values in a column#
-missing_values=Train_data.isnull().sum()
+#replacing missing data values
+#fancy impute removes column names.
+#Check this section as it is not running#
+train_cols = list(Traindata)
+train_complete = pd.DataFrame(KNN(k=5).complete(Traindata))
+train_complete = pd.DataFrame(KNN(k=5).fit_transform(Traindata[['education']]))
 
-education_missing=pd.isnull(Train_data['education'])
-education_missing_values=Train_data[education_missing]
+#check the distribution of variables post imputation
+
+
+#Fitting a basic model without any data transformations#
+Model_data = Traindata.dropna()
+#added this line
