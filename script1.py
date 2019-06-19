@@ -29,5 +29,3 @@ train_complete = pd.DataFrame(KNN(k=5).fit_transform(Traindata[['education']]))
 #check the distribution of variables post imputation
 
 
-#Fitting a basic model without any data transformations#
-Model_data = Traindata.dropna()
